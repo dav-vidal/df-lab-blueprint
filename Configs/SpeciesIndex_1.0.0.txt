@@ -1,0 +1,35 @@
+# Species Index — DF Stat & Calculation Lab
+Schema: DF-LAB-SPECIES-INDEX-1.0.0
+DF Version: v0.52 (Steam)
+
+============================================================
+PROFILE_MAP
+============================================================
+Human:  Configs/Species/Human_Attrs_1.0.0.txt
+Dwarf:  Configs/Species/Dwarf_Attrs_1.0.0.txt
+Elf:    Configs/Species/Elf_Attrs_1.0.0.txt
+
+============================================================
+DEFAULTS
+============================================================
+DEFAULT_PROFILE: Human          # fallback chain: Requested → Human → NormalFallback
+ALLOW_NORMAL_FALLBACK: true     # if profile file missing or invalid
+
+============================================================
+VALIDATION
+============================================================
+# Each species file must provide:
+# - PROFILE: <Name>
+# - BODY_MODS: BASE_SIZE_CM3, HEIGHT_%, BROADNESS_%
+# - PHYS_ATT_RANGE: 6 keys [STR,AGI,TGH,END,REC,DIS] with 7 ascending cutoffs
+# - MENT_ATT_RANGE: 13 keys with 7 ascending cutoffs
+REQUIRE_ASCENDING_CUTOFFS: true
+MIN_CUTOFF: 1
+MAX_CUTOFF: 5000
+
+============================================================
+NOTES
+============================================================
+# Add new species by appending to PROFILE_MAP.
+# Keep file names versioned; bump minor on data tweaks, major on schema changes.
+```0

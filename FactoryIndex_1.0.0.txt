@@ -1,0 +1,63 @@
+# Factory Index — DF Stat & Calculation Lab
+Schema: DF-LAB-INDEX-1.0.0
+DF Version: v0.52 (Steam)
+
+============================================================
+PURPOSE
+============================================================
+- Quick entry point: describes what files to load, in what order.
+- Explains how UNIT_RAW flows through pipelines.
+- Acts like a README for the lab.
+
+============================================================
+LOAD ORDER (boot plan)
+============================================================
+1) Core/ConfigManager_1.0.0.txt
+   - Defines constants, tag schema, role codes, thresholds, synergy codes.
+
+2) Core/UnitGenerator_1.0.0.txt
+   - Generates UNIT_RAW (no tags, no IDs).
+
+3) Pipelines/<PIPELINE>/*.txt
+   - Embark_1.0.0.txt is active pipeline.
+   - Consumes UNIT_RAW, tags/evaluates, builds teams, exports files.
+
+============================================================
+UNIT FLOW
+============================================================
+UNIT_RAW (from UnitGenerator)
+  → Evaluator (uses Config thresholds & rules)
+  → Tagger (adds PIPELINE:PENDING@EMB, PHASE:RAWS, HIGHS/LOWS/ELITE, SYNERGY, RISKS)
+  → Assembler (ensures 7-dwarf coverage: mining, food, wood, stone, utility, admin, military)
+  → SkillAssigner (+10 embark points based on synergy)
+  → Exporter (writes 7 Units + Team Summary; logs discards; archives up to 3 extras)
+
+============================================================
+PIPELINE TAGGING
+============================================================
+PIPELINE (compound tag)
+- STATUS: PENDING | FIT | ARCHIVE
+- PIPE:   EMB
+
+Examples:
+- PIPELINE: PENDING@EMB → rolled dwarf, candidate only.
+- PIPELINE: FIT@EMB → in final team of 7.
+- PIPELINE: ARCHIVE@EMB → saved but unused.
+
+PHASE
+- RAWS → SKILL_ASSIGNED → TEAMED
+
+============================================================
+OUTPUT LOCATIONS
+============================================================
+- /Units/Active/ : approved unit files
+- /Units/Archive/: archived candidates (0–3 per cycle)
+- /Teams/Active/ : 7-dwarf team summary file
+- /Discards/     : discard log with reasons
+
+============================================================
+NOTES
+============================================================
+- RUN_MODE (AUTO | CHECKPOINT) is set in ConfigManager.
+- Only EMB pipeline exists now. Future: MIL, NOB, IND, SCH.
+- UnitGenerator is always separate: can batch-generate and feed to any pipeline.

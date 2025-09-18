@@ -1,0 +1,54 @@
+# Embark Pipeline (EMB) — Factory Spec
+Schema: DF-LAB-PIPE-EMB-1.0.1
+DF Version: v0.52 (Steam)
+
+PURPOSE (Dwarf-only for v1.0.0)
+- Consume UNIT_RAW in batches and produce a finalized 7-dwarf embark team with coverage & redundancy.
+
+RUN_MODE
+- Default: AUTO (end-to-end, no pauses)
+- Optional: CHECKPOINT (pause before Exporter to review team & +10)
+
+STAGES (internal, automated)
+1) Evaluator
+   - Uses THRESHOLDS and ELIGIBILITY_RULES from Config.
+   - Output: DISCARD_LINE (fail) or PROVISIONAL_UNIT (pass).
+
+2) Tagger
+   - Adds Tag Schema fields to passing units.
+   - Sets PIPELINE: PENDING@EMB, PHASE: RAWS.
+   - Populates HIGHS/LOWS/ELITE, SYNERGY, RISKS, ROLES_* (best guess).
+
+3) Assembler
+   - Builds a 7-dwarf team satisfying coverage:
+     • Mining (2) — at least two MIN (or 1 strong + 1 decent)
+     • Food (2 roles among FAR/BRW/COK)
+     • Wood (WDC/CAR)
+     • Stone (MAS)
+     • Utility (MEC)
+     • Admin (BRO/MNG/BKK)
+     • At least one military-capable (AXE/HAM/SPE/MKS/SHD)
+   - Honors ARCHIVE_CAP_PER_CYCLE: keep only top 0–3 unused passes.
+
+4) SkillAssigner
+   - Assigns +10 embark points to each selected dwarf’s best-synergy skill.
+   - Sets PHASE: SKILL_ASSIGNED.
+   - Updates PIPELINE: FIT@EMB for the 7 selected; ARCHIVE@EMB for unused but kept.
+
+5) Exporter
+   - Writes 7 Unit files to Units/Active/ and one Team Summary to Teams/Active/.
+   - Appends discard lines to Discards/DiscardLog_<DATE>.txt.
+   - No other side effects.
+
+INPUT
+- One or more UNIT_RAW. If insufficient to form a legal team, the pipeline returns a deficit report (“need FAR or MEC…”) and waits for more UNIT_RAW.
+
+OUTPUT
+- /Units/Active/: 7 unit text files
+- /Teams/Active/: 1 team summary text file
+- /Discards/: appended failures
+- /Units/Archive/: 0–3 archived candidates (if any)
+
+NOTES
+- All role/stat/synergy codes come from ConfigManager (append-only).
+- When new pipelines are added later (MIL/NOB/IND…), they can run in parallel with EMB without changing this spec.

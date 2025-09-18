@@ -1,0 +1,85 @@
+# Unit Generator — Service Spec (Core)
+Schema: DF-LAB-UNITGEN-1.2.0
+DF Version: v0.52 (Steam)
+
+PURPOSE
+- Generate UNIT_RAW with DF-style percentile bucket rolls per species.
+- Read species cutoffs from SpeciesIndex → Species file.
+
+DEPENDENCIES
+- Configs/SpeciesIndex_1.0.0.txt
+- Configs/Species/<Profile>_Attrs_*.txt
+- Core/ConfigManager_1.1.0.txt (fallback, codes)
+
+INPUTS
+- SPECIES_PROFILE: string (e.g., Human, Dwarf, Elf)
+- RNG_SEED: optional int
+- COUNT: optional int (default 1)
+
+OUTPUT
+- UNIT_RAW objects (no IDs, no pipeline tags)
+  Keys unchanged from 1.1.0 (STR…PAT, BASE_SIZE_CM3, HEIGHT_%, BROADNESS_%, etc.)
+
+ALGORITHM (per attribute)
+1) Resolve profile:
+   a) Try requested SPECIES_PROFILE via SpeciesIndex.PROFILE_MAP.
+   b) Else use SpeciesIndex.DEFAULT_PROFILE.
+   c) If still missing/invalid and ALLOW_NORMAL_FALLBACK=true → use NormalFallback.
+2) If profile has 7-cutoff array for this attribute:
+   a) Roll percentile p ∈ [0,100).
+   b) Map p to bucket i using fixed boundaries:
+      buckets = [(0,4), (5,19), (20,49), (50,79), (80,94), (95,99), (100,100)]
+      Use i where p ≤ high.
+   c) Sample uniformly within bucket range:
+      ranges = [
+        (min_floor, c1),
+        (c1, c2),
+        (c2, c3),
+        (c3, c4),
+        (c4, c5),
+        (c5, c6),
+        (c6, c7)
+      ]
+      min_floor defaults to 200 unless species file overrides MIN_FLOOR.
+   d) Clamp final value to [MIN_CUTOFF, MAX_CUTOFF] from SpeciesIndex validation or defaults (1..5000).
+3) Else (no array): NormalFallback
+   a) Draw N(mean=Config.DEFAULTS.NORMAL_MEAN, std=Config.DEFAULTS.NORMAL_STD).
+   b) Clamp to [200, 5000].
+4) Body mods:
+   - BASE_SIZE_CM3: from species or default (Human 70000 if absent).
+   - HEIGHT_%: uniform in [lo, hi].
+   - BROADNESS_%: uniform in [lo, hi].
+
+PERSONALITY
+- If species file defines descriptors, sample weighted; else emit empty arrays.
+
+VALIDATION
+- On load, assert each 7-cutoff array is strictly ascending.
+- If any attribute array invalid → fall back per step 1c.
+- If profile file schema mismatch → fall back per step 1c.
+
+COMPATIBILITY
+- Output schema identical to 1.1.0 → pipelines unchanged.
+- Evaluator thresholds (HIGHS_MIN/ELITE_MIN) apply to generated values.
+
+SEEDING
+- If RNG_SEED set, seed once per batch for reproducibility.
+
+PERF
+- Cache parsed species profiles by key for the process lifetime.
+- Vectorize bucket selection if COUNT is large (optional).
+
+LOGGING (optional)
+- If RUN_MODE=CHECKPOINT, include per-attr debug: percentile, bucket, range, final_value.
+
+EXAMPLE
+- SPECIES_PROFILE: Human, COUNT: 3 → emits 3 UNIT_RAW with DF-style STR/AGI/TGH…PAT numbers.
+
+NOTES
+- Bucket boundaries are fixed here to mirror wiki interpretation; adjust only with a minor version bump.
+- NormalFallback provides continuity for missing species until their files are added.
+
+VERSIONING
+- 1.2.0: introduces percentile bucket rolls and SpeciesIndex lookup.
+- Keep 1.1.0 behavior available behind flag: FALLBACK_MODE=normal_only (optional).
+```0
