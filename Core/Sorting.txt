@@ -1,0 +1,24 @@
+# Sorting
+
+PURPOSE
+- Define sort keys and filter predicates for listing stored units.
+
+SORT_KEYS
+- Any attribute name (e.g., STRENGTH, FOCUS)
+- Aggregates: ELITE_COUNT, HIGH_COUNT
+- Meta: creature, caste, created_utc
+
+ORDER
+- asc | desc
+
+FILTERS (grammar)
+- equality:   CREATURE==DWARF
+- thresholds: STRENGTH>=HIGH        # class-based
+- numeric:    FOCUS>=1600
+- counts:     ELITE_COUNT>=1
+- caste:      CASTE==FEMALE
+
+EVAL RULES
+- Class comparisons map to bucket indices (VERY_LOW=0 … EXCEPTIONAL=7).
+- Numeric comparisons use raw attribute values.
+- Multiple filters combine with AND by default.

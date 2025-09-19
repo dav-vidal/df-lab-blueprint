@@ -4,4 +4,9 @@ LOAD:
 - Core/Skills.txt
 - Core/UnitGenerator.txt
 - Core/Evaluator_8class.txt
-- Configs/Creatures.txt
+- Core/Storage.txt
+- Core/Sorting.txt
+- Core/Compare.txt
+- Core/Validator.txt
+- Core/Loader.txt
+- Configs/CreatureIndex.txt

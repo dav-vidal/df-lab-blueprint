@@ -1,0 +1,11 @@
+# Test — sort and filter
+TASK: TestSortFilter
+SETUP:
+  - Generate 50 DWARF (random seeds), save all
+ACTIONS:
+  - LIST --sort STRENGTH:desc
+  - FILTER "CREATURE==DWARF AND ELITE_COUNT>=1 AND FOCUS>=1500"
+ASSERT:
+  - SORT_NONINCREASING: STRENGTH
+  - FILTER_MATCHES_PREDICATE: true
+REPORT: Store/Indexes/test_sort_filter.txt

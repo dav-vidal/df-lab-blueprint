@@ -1,0 +1,13 @@
+# Test — compare
+TASK: TestCompare
+SETUP:
+  - Generate two units with known seeds:
+    A: CREATURE=DWARF CASTE=MALE SEED=42
+    B: CREATURE=DWARF CASTE=MALE SEED=99
+  - Evaluate both; save both
+ACTION:
+  - COMPARE A vs B
+ASSERT:
+  - OUTPUT_HAS_ROWS: PHYSICAL+MENTAL count = 19
+  - HAS_SUMMARY: ELITE_COUNT and HIGH_COUNT deltas present
+REPORT: Store/Indexes/test_compare.txt

@@ -1,0 +1,13 @@
+Minimal CLI spec (to exercise core)
+
+gen --creature X [--caste Y] [--seed N] --save
+
+list [--sort KEY:asc|desc] [--filter PREDICATE]
+
+show <unit_id>
+
+compare <unit_id_a> <unit_id_b>
+
+validate (runs Validator on configs)
+
+reindex (rebuild CSV from JSON files)

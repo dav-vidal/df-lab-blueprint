@@ -1,0 +1,33 @@
+# Storage
+
+PURPOSE
+- Persist generated units and maintain a simple searchable index.
+
+LOCATIONS
+- Store/Units/              # one JSON per unit
+- Store/Indexes/units.csv   # flat index for list/sort/filter
+
+UNIT_JSON_SCHEMA
+- unit_id: string           # e.g., "U-0001"
+- created_utc: ISO-8601
+- seed: int|null
+- creature: TOKEN           # e.g., DWARF
+- caste: TOKEN              # e.g., MALE
+- physical: {STRENGTH:int, AGILITY:int, TOUGHNESS:int, ENDURANCE:int, RECUPERATION:int, DISEASE_RESISTANCE:int}
+- mental: {ANALYTICAL_ABILITY:int, FOCUS:int, WILLPOWER:int, MEMORY:int, INTUITION:int, LINGUISTIC_ABILITY:int,
+           SPATIAL_SENSE:int, KINESTHETIC_SENSE:int, MUSICALITY:int, CREATIVITY:int, SOCIAL_AWARENESS:int,
+           EMPATHY:int, PATIENCE:int}
+- body_mods: {BASE_SIZE_CM3:int, HEIGHT_%:int, BROADNESS_%:int}
+- skills: {<DF_SKILL_TOKEN>: int, ...}    # all 0 at generation
+- class_map: {<ATTRIBUTE>: <VERY_LOW|LOW|...|EXCEPTIONAL>}  # from Evaluator_8class
+- meta: {source:string, schema:string}
+
+INDEX_CSV_COLUMNS
+- unit_id,creature,caste,created_utc,
+  STRENGTH,AGILITY,TOUGHNESS,FOCUS,SPATIAL_SENSE,
+  ELITE_COUNT,HIGH_COUNT
+
+OPERATIONS
+- save(unit): write JSON to Store/Units/<unit_id>.json; upsert row in units.csv
+- load(unit_id): read JSON, validate minimal shape
+- reindex(): rebuild units.csv from all JSON files

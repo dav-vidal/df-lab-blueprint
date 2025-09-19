@@ -1,4 +1,15 @@
 # Config Manager
+
+# IDs and paths
+ID_PREFIX: U-
+ID_DIGITS: 4
+UNIT_ID_METHOD: sequential
+
+STORE_ROOT: Store
+UNITS_DIR: Store/Units
+INDEX_DIR: Store/Indexes
+INDEX_FILE: Store/Indexes/units.csv
+
 NORMAL_FALLBACK:
   MEAN: 1200
   STD: 200

@@ -1,0 +1,12 @@
+# Test — storage roundtrip
+TASK: TestStorageRoundtrip
+ACTION:
+  - Generate: CREATURE=DWARF CASTE=MALE SEED=123
+  - Evaluate 8-class
+  - Save JSON (assign next sequential unit_id)
+  - Load same unit_id
+ASSERT:
+  - FIELDS_MATCH: physical, mental, body_mods, skills, class_map
+  - ID_FORMAT: U-\d{4}
+  - INDEX_ROW_PRESENT: true
+REPORT: Store/Indexes/test_storage_roundtrip.txt

@@ -1,0 +1,17 @@
+# Compare
+
+PURPOSE
+- Side-by-side diff of two stored units.
+
+OUTPUT
+- Per-attribute row:
+  NAME, value_A, value_B, delta, class_A, class_B, class_delta
+- Summary:
+  ELITE_COUNT_A, ELITE_COUNT_B, delta
+  HIGH_COUNT_A,  HIGH_COUNT_B,  delta
+
+CLASS_DELTA
+- class_delta = index(class_B) - index(class_A)   # -7..+7
+
+OPTIONAL SCORE
+- similarity (0..1) using cosine on z-scored attribute vector (PHYS+MENT).
