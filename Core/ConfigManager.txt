@@ -1,0 +1,66 @@
+# CONFIG MANAGER
+
+PURPOSE
+  - Single source of truth
+
+GLOBAL_CONSTANTS:
+  ID_FORMATS:
+    UNIT_ID_PREFIX: Unit-
+    UNIT_ID_DIGITS: 4
+    DATE_FMT: YYYY-MM-DD
+
+ATTRIBUTES_CODES:
+  PHYSICAL:
+    STR       # streght
+    AGI       # agility
+    TGH       # toughness
+    END       # endurance
+    REC       # recovery
+    DIS       # disease resistance
+  MENTAL:
+    FOC       # focus
+    SPA       # spatial sense
+    ANA       # analytical ability
+    CRE       # creativity
+    PAT       # patience
+    MEM       # memory
+    INT       # intuition
+    WIL       # willpower
+    KIN       # kinesthetic sense
+    LNG       # languistic ability
+    MUS       # musicality
+    EMP       # empathy
+    SOC       # social awareness
+
+ROLE CODES:
+  MIN         # Miner
+  MAS         # Mason
+  ENG         # Engraver
+  CAR         # Carpenter
+  WDC         # Woodcutter
+  MEC         # Mechanic
+  CRF         # Crafter
+  FAR         # Planter
+  BRW         # Brewer
+  COK         # Cook
+  GCT         # Gem Cutter
+  GST         # Gem Setter
+  WPN         # Weaponsmith
+  ARM         # Armorsmith
+  BLK         # Blacksmith
+  MKS         # Marksdwarf
+  AXE         # Axedwarf
+  HAM         # Hammerdwarf
+  SPE         # Speardwarf
+  SHD         # Shield user
+  BRO         # Broker
+  MNG         # Manager
+  BKK         # Bookkeeper
+
+DEFAULTS:       
+NORMAL_FALLBACK:        # NormalFallback for UnitGenerator
+  MEAN: 1200
+  STD: 200
+  MIN: 200
+  MAX: 5000
+  ENABLED: true

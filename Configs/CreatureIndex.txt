@@ -1,0 +1,11 @@
+# Creature INDEX
+
+
+MAP:
+    Human:  Configs/Species/HUMAN.txt
+    Dwarf:  Configs/Species/DWARF.txt
+    Elf:    Configs/Species/ELF.txt
+
+DEFAULT: Human          # fallback chain: Requested → Human → NormalFallback
+ALLOW_NORMAL_FALLBACK: true     # if profile file missing or invalid
+

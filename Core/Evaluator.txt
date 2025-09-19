@@ -1,0 +1,104 @@
+# Evaluator - DF LAB (Species-relative)
+Schema: DF-LAB-EVAL-2.0.0
+DF VERSION: V0.52
+
+=============================================================
+=============================================================
+PURPOSE
+=============================================================
+=============================================================
+- Classify attributes by species cutoff buckets.
+- Emit HIGHS/LOWS/ELITE using each species' 7-cutoff arrays.
+
+=============================================================
+=============================================================
+INPUT
+=============================================================
+=============================================================
+- UNIT_RAW (has: PROFILE, STR..PAT)
+- Species profiles (PHYS_ATT_RANGE, MENT_ATT_RANGE)
+
+=============================================================
+=============================================================
+OUTPUT (augment UNIT_RAW)
+=============================================================
+=============================================================
+- HIGHS: [CODES]
+- LOWS: [CODES]
+- ELITE: [CODES] # optional if any in top buckets
+- BUCKETS: {ATTR: label} # debug (optional)
+- PIPELINE tag unchanged
+
+=============================================================
+=============================================================
+BUCKET MODEL (per attribute)
+=============================================================
+=============================================================
+- Species array C = [c1,c2,c3,c4,c5,c6,c7]
+- Value v classified by:
+    B0: v < c1                   -> "very low"
+    B1: c1 ≤ v < c2              -> "low"
+    B2: c2 ≤ v < c3              -> "bellow_avg"
+    B3: c3 ≤ v < c4              -> "avg"
+    B4: c4 ≤ v < c5              -> "above_avg"
+    B5: c5 ≤ v < c6              -> "high"
+    B6: c6 ≤ v < c7              -> "elite"
+    B6: v ≥ c7                   -> "exceptional"
+
+=============================================================
+=============================================================
+OUTPUT (augment UNIT_RAW)
+=============================================================
+=============================================================
+- CLASS_MAP: {
+    ATTR: one_of[very_low,low,below_avg,avg,above_avg,high,elite,exceptional]
+}
+- CLASS_INDEX: {ATTR: B0..B7}
+- CLASS_COUNTS: {very_low: n0, ..., exceptional: n7} 
+
+=============================================================
+=============================================================
+DERIVED TAGS 
+=============================================================
+=============================================================
+- BAD: attrs with classes ∈ {very_low, low}
+- GOOD: attrs with classes ∈ {above_avg, high}
+- VERY_GOOD: attrs with classes ∈ {elite, exceptional}
+
+=============================================================
+=============================================================
+CONFIG
+=============================================================
+=============================================================
+EVAL_OUTPUT:
+    EMIT_CLASS_INDEX: true
+    EMIT_CLASS_COUNTS: true
+    EMIT_CLASS_TAGS: false              # set true to emit BAD/GOOD/VERY_GOOD
+SYNERGY_GATES:
+    MIN_CLASS: avg                      # require both attrs ≥ this classes
+    STRONG_CLASS: high                  # stronger generated
+    REJECT_IF_ANY_IN: [very_low, low]
+
+=============================================================
+=============================================================    
+ERRORS
+=============================================================
+=============================================================
+- Missing/invalid cutoffs → skip attr, mark CLASS_MAP[ATTR]="unknown".
+- Non-ascending cutoffs → log "bad_cutoffs", skip attr.
+
+
+EXAMPLE (Dwarf STR cutoffs [450,950,1150,1250,1350,1550,2250])
+v=940 → B1 low
+v=1270 → B3 avg
+v=1440 → B5 high
+v=1600 → B6 elite
+v=2300 → B7 exceptional
+
+=============================================================
+=============================================================
+COMPATIBILITY
+=============================================================
+=============================================================
+- Supersedes Evaluator_2.0.x.
+- Downstream may consume CLASS_MAP; derived tags
