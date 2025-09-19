@@ -1,0 +1,8 @@
+# Validator
+CHECKS:
+  - Creature file exists from CreatureIndex.
+  - BODY_MODS keys present; numeric; sane ranges.
+  - PHYS_ATT_RANGE and MENT_ATT_RANGE present.
+  - Each attribute has 7 ascending integers.
+  - All values within [200..5000] (except known lower like AGILITY min 150 for DWARF).
+  - No unknown attribute names.

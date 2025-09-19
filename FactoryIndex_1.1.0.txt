@@ -1,25 +1,7 @@
-# Factory Index — DF Lab Blueprint
-Schema: DF-LAB-INDEX-1.1.0
-DF Version: v0.52
-
-PURPOSE
-- Boot plan: what to load and in what order.
-
-LOAD ORDER
-1) Core/ConfigManager_1.2.0.txt
-2) Core/UnitGenerator_1.2.0.txt
-3) Configs/SpeciesIndex_1.0.0.txt
-4) Pipelines/EMB/Embark_1.0.1.txt
-
-UNIT FLOW
-UNIT_RAW → Evaluator → Tagger → Assembler → SkillAssigner → Exporter
-
-OUTPUTS
-- Outputs/Units/Active/
-- Outputs/Units/Archive/
-- Outputs/Teams/Active/
-- Outputs/Discards/
-
-NOTES
-- Species profiles externalized (Human, Dwarf, Elf).
-- NormalFallback active if a profile is missing.
+# Factory Index
+LOAD:
+- Core/ConfigManager.txt
+- Core/Skills.txt
+- Core/UnitGenerator.txt
+- Core/Evaluator_8class.txt
+- Configs/Creatures.txt

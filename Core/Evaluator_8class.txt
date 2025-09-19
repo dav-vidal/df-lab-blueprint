@@ -1,0 +1,13 @@
+# Evaluator (8-class, species-relative)
+BUCKETS with C=[c1..c7], value v:
+  B0 VERY_LOW:        v < c1
+  B1 LOW:             c1 ≤ v < c2
+  B2 BELOW_AVERAGE:   c2 ≤ v < c3
+  B3 AVERAGE:         c3 ≤ v < c4
+  B4 ABOVE_AVERAGE:   c4 ≤ v < c5
+  B5 HIGH:            c5 ≤ v < c6
+  B6 ELITE:           c6 ≤ v < c7
+  B7 EXCEPTIONAL:     v ≥ c7
+OUTPUT AUGMENT:
+  CLASS_MAP: {ATTRIBUTE: CLASS_NAME}
+  CLASS_INDEX: {ATTRIBUTE: B0..B7}  # optional

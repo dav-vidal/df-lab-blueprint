@@ -1,0 +1,10 @@
+# Loader
+ORDER:
+  1) Core/ConfigManager.txt
+  2) Core/Skills.txt
+  3) Configs/CreatureIndex.txt
+  4) Creature file
+RULES:
+  - Cache parsed files per session.
+  - Fallback chain: Requested CREATURE → DEFAULT → NORMAL_FALLBACK.
+  - On malformed arrays: skip attr, record error.
