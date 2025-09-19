@@ -1,30 +1,14 @@
 # Test — NormalFallback behavior
 TASK: TestNormalFallback
-PROFILE: MissingProfileName            # forces fallback path
+PROFILE: MissingProfileName
 SAMPLES: 5000
 ASSERT:
-  - MEAN_APPROX: 1200 ± 120            # mean within ±10%
-  - STD_APPROX: 200 ± 40               # std within ±20%
-  - RANGE: [200, 5000]                 # all values clamped
+  - MEAN_APPROX: 1200 ± 120
+  - STD_APPROX: 200 ± 40
+  - RANGE: [200, 5000]
 ATTRIBUTES:
-  - STR
-  - AGI
-  - TGH
-  - END
-  - REC
-  - DIS
-  - ANA
-  - FOC
-  - WIL
-  - MEM
-  - INT
-  - LNG
-  - SPA
-  - KIN
-  - MUS
-  - CRE
-  - SOC
-  - EMP
-  - PAT
+  - STR - AGI - TGH - END - REC - DIS
+  - ANA - FOC - WIL - MEM - INT - LNG
+  - SPA - KIN - MUS - CRE - SOC - EMP - PAT
 REPORT: Outputs/Lab/tests/test_normal_fallback_report.txt
-NOTES: Use UnitGenerator_1.2.0 with NORMAL_FALLBACK.ENABLED=true.
+NOTES: NORMAL_FALLBACK.ENABLED=true.

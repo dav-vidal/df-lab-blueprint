@@ -1,0 +1,23 @@
+# Ignore generated outputs ( always re-creatable )
+Outputs/Units/Active/
+Outputs/Units/Archive/
+Outputs/Teams/Active/
+Outputs/Discards
+
+# Igonore lab tests reports
+Outputs/Lab/Tests/*_report.txt
+
+# Igonore editor/OS junk
+*.swp
+*.swo
+*.tmp
+*.log
+.DS_STORE
+Thumbs.db
+
+# Ignore python cache if you test scripts
+__pycache__/
+*.pyc
+
+# Ignore backup files
+*~
