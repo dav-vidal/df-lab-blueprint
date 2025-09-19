@@ -1,0 +1,15 @@
+# Test — caste resolution
+
+TASK: TestCasteResolution
+CASES:
+  - CREATURE: DWARF
+    CASTE: MALE
+  - CREATURE: DWARF
+    CASTE: FEMALE
+ASSERT:
+  - HAS_CASTE_BLOCK: true
+  - PHYS_ATT_RANGE_PRESENT: true
+  - MENT_ATT_RANGE_PRESENT: true
+  - BODY_MODS_PRESENT: true
+REPORT: Outputs/Lab/tests/test_caste_resolution.txt
+NOTES: Fails if requested CASTE is missing or falls back silently.

@@ -1,8 +1,47 @@
 # Validator
-CHECKS:
-  - Creature file exists from CreatureIndex.
-  - BODY_MODS keys present; numeric; sane ranges.
-  - PHYS_ATT_RANGE and MENT_ATT_RANGE present.
-  - Each attribute has 7 ascending integers.
-  - All values within [200..5000] (except known lower like AGILITY min 150 for DWARF).
-  - No unknown attribute names.
+
+PURPOSE
+- Ensure creature files are well-formed and usable by the generator/evaluator.
+
+RULES
+- CreatureIndex.txt:
+  * MAP has uppercase tokens → file paths.
+  * DEFAULT exists in MAP.
+  * ALLOW_NORMAL_FALLBACK is boolean.
+
+- Creature files (Configs/Creatures/<TOKEN>.txt):
+  * First line starts with "# CREATURE:<TOKEN>".
+  * ≥1 [CASTE:<NAME>] block exists.
+  * Each CASTE block contains:
+      BODY_MODS: BASE_SIZE_CM3 (int > 0)
+                 HEIGHT_%: [lo, hi], 0 < lo ≤ hi
+                 BROADNESS_%: [lo, hi], 0 < lo ≤ hi
+      PHYS_ATT_RANGE: exactly these keys →
+        STRENGTH, AGILITY, TOUGHNESS, ENDURANCE, RECUPERATION, DISEASE_RESISTANCE
+      MENT_ATT_RANGE: exactly these keys →
+        ANALYTICAL_ABILITY, FOCUS, WILLPOWER, MEMORY, INTUITION, LINGUISTIC_ABILITY,
+        SPATIAL_SENSE, KINESTHETIC_SENSE, MUSICALITY, CREATIVITY, SOCIAL_AWARENESS,
+        EMPATHY, PATIENCE
+      For every attribute array:
+        - length = 7
+        - strictly ascending integers
+        - each value in [1..5000] (allow AGILITY min=150 for DWARF)
+  * No unknown attribute names.
+
+- Skills.txt:
+  * TIER_SCALE defines levels 0..11 with labels.
+  * SKILL_TOKENS is a non-empty list (tokens are unique).
+
+- ConfigManager.txt:
+  * NORMAL_FALLBACK has MEAN, STD, MIN, MAX, ENABLED.
+  * MIN ≤ MEAN ≤ MAX; STD > 0.
+
+- UnitGenerator.txt:
+  * States that skills initialize to 0 and uses 7-cutoff rolls.
+
+- Evaluator_8class.txt:
+  * Defines B0..B7 classes relative to c1..c7.
+
+FAILURE MODE
+- Any missing/invalid item → report path + rule broken.
+- Generator may fall back to NORMAL_FALLBACK if allowed.

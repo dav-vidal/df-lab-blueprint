@@ -1,14 +1,29 @@
-# Test — NormalFallback behavior
+# Test — normal fallback
 TASK: TestNormalFallback
-PROFILE: MissingProfileName
+CREATURE: NOT_A_REAL_TOKEN
 SAMPLES: 5000
 ASSERT:
   - MEAN_APPROX: 1200 ± 120
   - STD_APPROX: 200 ± 40
   - RANGE: [200, 5000]
 ATTRIBUTES:
-  - STR - AGI - TGH - END - REC - DIS
-  - ANA - FOC - WIL - MEM - INT - LNG
-  - SPA - KIN - MUS - CRE - SOC - EMP - PAT
-REPORT: Outputs/Lab/tests/test_normal_fallback_report.txt
-NOTES: NORMAL_FALLBACK.ENABLED=true.
+  - STRENGTH
+  - AGILITY
+  - TOUGHNESS
+  - ENDURANCE
+  - RECUPERATION
+  - DISEASE_RESISTANCE
+  - ANALYTICAL_ABILITY
+  - FOCUS
+  - WILLPOWER
+  - MEMORY
+  - INTUITION
+  - LINGUISTIC_ABILITY
+  - SPATIAL_SENSE
+  - KINESTHETIC_SENSE
+  - MUSICALITY
+  - CREATIVITY
+  - SOCIAL_AWARENESS
+  - EMPATHY
+  - PATIENCE
+REPORT: Outputs/Lab/tests/test_normal_fallback.txt

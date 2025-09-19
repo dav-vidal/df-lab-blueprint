@@ -1,9 +1,14 @@
 # Loader
+
 ORDER:
   1) Core/ConfigManager.txt
   2) Core/Skills.txt
   3) Configs/CreatureIndex.txt
   4) Creature file
+
+CASTE RESOLUTION:
+  - If caste provided and exists → use it.
+  - Else pick first caste defined or random among casts.
 RULES:
   - Cache parsed files per session.
   - Fallback chain: Requested CREATURE → DEFAULT → NORMAL_FALLBACK.

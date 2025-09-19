@@ -1,0 +1,13 @@
+# Test — distribution (DWARF)
+
+TASK: TestDistribution
+CREATURE: DWARF
+CASTE: MALE
+ATTRIBUTE: STRENGTH
+SAMPLES: 10000
+BUCKETS: B0..B7
+TOLERANCE_PCT: 5
+ASSERT:
+  - EMPIRICAL_RATE_WITHIN_TOLERANCE: true
+REPORT: Outputs/Lab/tests/test_distribution_dwarf.txt
+NOTES: Compares bucket hit rates from rolls vs expected bucket masses.

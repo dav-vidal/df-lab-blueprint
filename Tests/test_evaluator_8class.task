@@ -1,0 +1,19 @@
+# Test — evaluator 8-class exactness
+
+TASK: TestEvaluator8Class
+CREATURE: DWARF
+CASTE: MALE
+ATTRIBUTE: STRENGTH
+SAMPLE_VALUES:
+  - at_c1_minus: c1-1 -> VERY_LOW
+  - at_c1: c1 -> LOW
+  - at_c2: c2 -> BELOW_AVERAGE
+  - at_c3: c3 -> AVERAGE
+  - at_c4: c4 -> ABOVE_AVERAGE
+  - at_c5: c5 -> HIGH
+  - at_c6: c6 -> ELITE
+  - at_c7: c7 -> EXCEPTIONAL
+ASSERT:
+  - CLASS_MATCHES_EXPECTED: true
+REPORT: Outputs/Lab/tests/test_evaluator_8class.txt
+NOTES: Uses DWARF STRENGTH cutoffs from the creature file.

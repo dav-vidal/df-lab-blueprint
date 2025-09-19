@@ -1,6 +1,8 @@
 # Unit Generator
+
 INPUT:
-  CREATURE: HUMAN|DWARF|ELF
+  CREATURE: TOKEN (e.g., DWARF)
+  CASTE: optional (MALE|FEMALE) if absent pick uniformly among defined castes.
   RNG_SEED: optional
 PROCESS:
   - Load Configs/CreatureIndex.txt → creature file.

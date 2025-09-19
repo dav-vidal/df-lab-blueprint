@@ -1,0 +1,15 @@
+# Test — creature loading and shape
+
+TASK: TestCreatureLoading
+CREATURES:
+  - HUMAN
+  - DWARF
+  - ELF
+CHECKS:
+  - CAN_LOAD: true
+  - HAS_CASTE_BLOCK: true
+  - REQUIRED_KEYS_PRESENT: true
+  - CUTTOFFS_ASCENDING: true
+  - ATTR_COUNT_PHYS: 6
+  - ATTR_COUNT_MENT: 13
+REPORT: Outputs/Lab/tests/test_creature_loading.txt
